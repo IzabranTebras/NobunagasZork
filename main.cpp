@@ -1,6 +1,9 @@
 #include <iostream>
 #include <conio.h>
 #include "Character.h"
+#include "Object.h"
+#include "Player.h"
+#include <vector>
 
 using namespace std;
 
@@ -8,11 +11,23 @@ int main() {
 	bool fin = false;
 	char str[20];
 	char* command;
+	char* special[2];
+	int i;
 
 	cout << "Nobunaga's Zork\n\n\n";
 
+	//Initialize objects
+	Object parchment = Object("parchment", 1, "Hello Mr. Ninja!");
+	Object kunai = Object("kunai", 1);
+	vector<Object> objPlayerList;
+	vector<Object> objPB1List;
+	objPlayerList.push_back(parchment);
+	objPB1List.push_back(kunai);
+	Object box = Object("box", 1, false, objPB1List);
+	objPB1List.push_back(box);
+
 	//Initialize the rooms
-	Scene pb1 = Scene("PB1", "Some trees...\n\n");
+	Scene pb1 = Scene("PB1", "Some trees...\n\n", objPB1List);
 	Scene pb2 = Scene("PB2", "More trees...\n\n");
 	Scene pb3 = Scene("PB3", "The stairs to the castle\n\n");
 	Scene pb4 = Scene("PB4", "A river\n\n");
@@ -58,7 +73,7 @@ int main() {
 
 	//Initialize the player
 	Scene *ptrPlayer = &pb1;
-	Character player = Character(*ptrPlayer);
+	Player player = Player(*ptrPlayer, objPlayerList);
 
 	cout << player.room->description + "\n\n";
 
@@ -72,8 +87,64 @@ int main() {
 				if (command != NULL) {
 					cout << player.Go(command) + "\n\n";
 				}
-				else {
-					cout << "I don't understand you, guy!\n\n";
+			}
+			else {
+				if (strcmp(command, "read") == 0) {
+					command = strtok(NULL, " ");
+					if (command != NULL) {
+						cout << player.Read(command) + "\n\n";
+					}
+				}else {
+					if (strcmp(command, "take") == 0) {
+						command = strtok(NULL, " ");
+						i = 0;
+						special[i];
+						while (special[i] = strtok(NULL, " ")) {
+							++i;
+						}
+						//i = 2 -> kunai = 0, from = 1 and box = 2
+						if (command != NULL) {
+							if (i == 2) {
+								cout << player.Take(command, special[1]) + " taken\n\n";
+							}
+							else {
+								cout << player.Take(command) + " taken\n\n";
+							}
+						}else {
+							cout << "I don't understand you, guy!\n\n";
+						}
+					}else {
+						if (strcmp(command, "drop") == 0) {
+							command = strtok(NULL, " ");
+							i = 0;
+							special[i];
+							while (special[i] = strtok(NULL, " ")) {
+								++i;
+							}
+							//i = 2 -> kunai = 0, from = 1 and box = 2
+							if (command != NULL) {
+								if (i == 2) {
+									cout << player.Drop(command, special[1]) + " dropped\n\n";
+								}
+								else {
+									cout << player.Drop(command) + " dropped\n\n";
+								}
+							}
+							else {
+								cout << "I don't understand you, guy!\n\n";
+							}
+						}else {
+							if (strcmp(command, "open") == 0) {
+								command = strtok(NULL, " ");
+								if (command != NULL) {
+									cout << player.Open(command) + " opened\n\n";
+								}
+								else {
+									cout << "I don't understand you, guy!\n\n";
+								}
+							}
+						}
+					}
 				}
 			}
 		}

@@ -1,9 +1,18 @@
 #include "Scene.h"
 
+Scene::Scene(const string title, const string text, vector<Object> sceneObjectList)
+{
+	name = title;
+	description = text;
+	objects = sceneObjectList;
+	alarm = false;
+}
+
 Scene::Scene(const string title, const string text)
 {
 	name = title;
 	description = text;
+	alarm = false;
 }
 
 Scene::Scene()
