@@ -1,11 +1,5 @@
 #include "Character.h"
 
-Character::Character(Scene & loc, vector<Object> playerList)
-{
-	room = &loc;
-	objects = playerList;
-}
-
 Character::Character()
 {
 }
@@ -13,6 +7,8 @@ Character::Character()
 
 Character::~Character()
 {
+	objects.clear();
+	objects.~vector();
 }
 
 int Character::Attack()

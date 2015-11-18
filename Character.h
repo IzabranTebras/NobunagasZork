@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Character__
+#define __Character__
+
 #include <string>
 #include <vector>
 #include "Scene.h"
@@ -9,13 +11,14 @@ using namespace std;
 class Character
 {
 public:
-	Character(Scene &loc, vector<Object> playerList);
 	Character();
 	~Character();
-
 	int Attack();
 
-	Scene *room;
 	vector<Object> objects;
+	Scene *room;
+	int health;
+	int attack;
 };
 
+#endif

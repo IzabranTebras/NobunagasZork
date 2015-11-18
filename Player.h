@@ -1,12 +1,15 @@
-#pragma once
+#ifndef __Player__
+#define __Player__
+
 #include <string>
+#include "NPC.h"
 #include "Character.h"
 #include "Scene.h"
 
 class Player : public Character
 {
 public:
-	Player(Scene &loc, vector<Object> playerList);
+	Player(Scene &loc, vector<Object> playerList, int life);
 	Player();
 	~Player();
 
@@ -17,5 +20,8 @@ public:
 	string Take(char* objName);
 	string Take(char* objName, char* container);
 	string Open(char* objOpenable);
+	string Throw(char* obj, NPC &target);
+	string Kill(NPC &enemy);
 };
 
+#endif
