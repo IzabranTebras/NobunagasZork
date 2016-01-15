@@ -1,3 +1,11 @@
+
+#Untracked files
+NobunagasZork.sdf
+NobunagasZork.sln
+Debug
+NobunagasZork/x64
+NobunagasZork/Debug
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
