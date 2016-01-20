@@ -13,8 +13,8 @@ public:
 	~World();
 	void Init();
 
-	vector<Scene> *scenes = new vector<Scene>();
-	vector<NPC> enemiesList;
+	vector<Scene*> scenes;
+	vector<NPC*> enemiesList;
 	Player *player;
 };
 #endif

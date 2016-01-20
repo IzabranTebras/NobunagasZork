@@ -6,11 +6,11 @@ class NPC :
 	public Character
 {
 public:
-	NPC(char* enemyName, int life, int attackDamage, bool armoured, Scene &scene);
+	NPC(const char* enemyName, const int life, const int attackDamage, const bool armoured, Scene &scene);
 	NPC();
 	~NPC();
-	const bool getArmour();
-	const char* getName();
+	const bool getArmour() const;
+	const char* getName() const;
 
 private:
 	bool armour;

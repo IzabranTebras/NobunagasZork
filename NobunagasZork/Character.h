@@ -15,7 +15,7 @@ public:
 	~Character();
 	int Attack();
 
-	vector<Object> objects;
+	vector<Object*> objects;
 	Scene *room;
 	int health;
 	int attack;

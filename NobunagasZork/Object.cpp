@@ -1,6 +1,6 @@
 #include "Object.h"
 
-Object::Object(char* obj, int num)
+Object::Object(const char* obj, const int num)
 {
 	name = obj;
 	damageAttack = num;
@@ -8,7 +8,7 @@ Object::Object(char* obj, int num)
 	openable = false;
 }
 
-Object::Object(char* obj, int num, char* text)
+Object::Object(const char* obj, const int num, const char* text)
 {
 	name = obj;
 	damageAttack = num;
@@ -17,7 +17,7 @@ Object::Object(char* obj, int num, char* text)
 	openable = false;
 }
 
-Object::Object(char * obj, int num, bool isOpen, vector<Object> objectsList)
+Object::Object(const char * obj, const int num, const bool isOpen, const vector<Object*> objectsList)
 {
 	name = obj;
 	damageAttack = num;
@@ -38,32 +38,32 @@ Object::~Object()
 	objects.~vector();
 }
 
-const char * Object::getName()
+const char* Object::getName() const
 {
 	return name;
 }
 
-const char * Object::getContent()
+const char* Object::getContent() const
 {
 	return content;
 }
 
-const bool Object::getReadable()
+const bool Object::getReadable() const
 {
 	return readable;
 }
 
-const bool Object::getOpenable()
+const bool Object::getOpenable() const
 {
 	return openable;
 }
 
-const int Object::getDamageAttack()
+const int Object::getDamageAttack() const
 {
 	return damageAttack;
 }
 
-const bool Object::getOpen()
+const bool Object::getOpen() const
 {
 	return open;
 }

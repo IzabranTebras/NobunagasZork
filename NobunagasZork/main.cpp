@@ -20,7 +20,7 @@ enum states
 	THROW
 };
 
-bool InputLogic(states state, char* command, Player *player, vector<NPC> enemiesList) {
+bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList) {
 	int i;
 	int j;
 	char* special[2];
@@ -89,11 +89,11 @@ bool InputLogic(states state, char* command, Player *player, vector<NPC> enemies
 			cout << player->Open(command) + "\n";
 
 			i = 0;
-			while ((player->room->objects.size() > i) && (strcmp(player->room->objects[i].getName(), command) != 0)) {
+			while ((player->room->objects.size() > i) && (strcmp(player->room->objects[i]->getName(), command) != 0)) {
 				++i;
 			}
-			for (int j = 0; j < player->room->objects[i].objects.size(); ++j) {
-				cout << "- " + string(player->room->objects[i].objects[j].getName()) + "\n";
+			for (int j = 0; j < player->room->objects[i]->objects.size(); ++j) {
+				cout << "- " + string(player->room->objects[i]->objects[j]->getName()) + "\n";
 			}
 		}
 		else {
@@ -107,7 +107,7 @@ bool InputLogic(states state, char* command, Player *player, vector<NPC> enemies
 			//busco el enemigo que quiere atacar
 			j = 0;
 			while (enemiesList.size() > j) {
-				if ((strcmp(enemiesList[j].getName(), command) != 0) || (strcmp(player->room->getName(), enemiesList[j].room->getName()) != 0)) {
+				if ((strcmp(enemiesList[j]->getName(), command) != 0) || (strcmp(player->room->getName(), enemiesList[j]->room->getName()) != 0)) {
 					++j;
 				}
 				else {
@@ -116,8 +116,8 @@ bool InputLogic(states state, char* command, Player *player, vector<NPC> enemies
 			}
 			if (j < enemiesList.size()) {
 				cout << player->Kill(enemiesList[j]);
-				if (enemiesList[j].health < 1) {
-					if (strcmp(enemiesList[j].getName(), "nobunaga") == 0) {
+				if (enemiesList[j]->health < 1) {
+					if (strcmp(enemiesList[j]->getName(), "nobunaga") == 0) {
 						fin = true;
 					}
 					enemiesList.erase(enemiesList.begin() + j);
@@ -144,7 +144,7 @@ bool InputLogic(states state, char* command, Player *player, vector<NPC> enemies
 			//busco el enemigo que quiere atacar
 			j = 0;
 			while (enemiesList.size() > j) {
-				if ((strcmp(enemiesList[j].getName(), special[1]) != 0) || (strcmp(player->room->getName(), enemiesList[j].room->getName()) != 0)) {
+				if ((strcmp(enemiesList[j]->getName(), special[1]) != 0) || (strcmp(player->room->getName(), enemiesList[j]->room->getName()) != 0)) {
 					++j;
 				}
 				else {
@@ -153,8 +153,8 @@ bool InputLogic(states state, char* command, Player *player, vector<NPC> enemies
 			}
 			if (j < enemiesList.size()) {
 				cout << player->Throw(command, enemiesList[j]) + "\n";
-				if (enemiesList[j].health < 1) {
-					if (strcmp(enemiesList[j].getName(), "nobunaga") == 0) {
+				if (enemiesList[j]->health < 1) {
+					if (strcmp(enemiesList[j]->getName(), "nobunaga") == 0) {
 						fin = true;
 					}
 					enemiesList.erase(enemiesList.begin() + j);
@@ -199,31 +199,31 @@ int main() {
 			}
 			else {
 				if (strcmp(command, "go") == 0) {
-					fin = InputLogic(GO, command, world->player, world->enemiesList);
+					fin = Input(GO, command, world->player, world->enemiesList);
 				}
 				else {
 					if (strcmp(command, "read") == 0) {
-						fin = InputLogic(READ, command, world->player, world->enemiesList);
+						fin = Input(READ, command, world->player, world->enemiesList);
 					}
 					else {
 						if (strcmp(command, "take") == 0) {
-							fin = InputLogic(TAKE, command, world->player, world->enemiesList);
+							fin = Input(TAKE, command, world->player, world->enemiesList);
 						}
 						else {
 							if (strcmp(command, "drop") == 0) {
-								fin = InputLogic(DROP, command, world->player, world->enemiesList);
+								fin = Input(DROP, command, world->player, world->enemiesList);
 							}
 							else {
 								if (strcmp(command, "open") == 0) {
-									fin = InputLogic(OPEN, command, world->player, world->enemiesList);
+									fin = Input(OPEN, command, world->player, world->enemiesList);
 								}
 								else {
 									if (strcmp(command, "kill") == 0) {
-										fin = InputLogic(KILL, command, world->player, world->enemiesList);
+										fin = Input(KILL, command, world->player, world->enemiesList);
 									}
 									else {
 										if (strcmp(command, "throw") == 0) {
-											fin = InputLogic(THROW, command, world->player, world->enemiesList);
+											fin = Input(THROW, command, world->player, world->enemiesList);
 										}
 										else {
 											cout << "I don't understand you, guy!\n\n";

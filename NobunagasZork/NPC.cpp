@@ -2,7 +2,7 @@
 
 
 
-NPC::NPC(char * enemyName, int life, int attackDamage, bool armoured, Scene &scene)
+NPC::NPC(const char * enemyName, const int life, const int attackDamage, const bool armoured, Scene &scene)
 {
 	name = enemyName;
 	health = life;
@@ -20,12 +20,12 @@ NPC::~NPC()
 {
 }
 
-const bool NPC::getArmour()
+const bool NPC::getArmour() const
 {
 	return armour;
 }
 
-const char * NPC::getName()
+const char* NPC::getName() const
 {
 	return name;
 }

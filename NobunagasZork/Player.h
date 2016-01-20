@@ -9,7 +9,7 @@
 class Player : public Character
 {
 public:
-	Player(Scene &loc, vector<Object> playerList, int life);
+	Player(Scene *loc, vector<Object*> playerObjectsList, int life);
 	Player();
 	~Player();
 
@@ -20,8 +20,8 @@ public:
 	string Take(char* objName);
 	string Take(char* objName, char* container);
 	string Open(char* objOpenable);
-	string Throw(char* obj, NPC &target);
-	string Kill(NPC &enemy);
+	string Throw(char* obj, NPC *target);
+	string Kill(NPC *enemy);
 };
 
 #endif

@@ -9,21 +9,21 @@ using namespace std;
 class Object
 {
 public:
-	Object(char* obj, int damage, char* text);
-	Object(char* obj, int damage, bool isOpen, vector<Object> objectsList);
-	Object(char* obj, int damage);
+	Object(const char* obj, const int damage, const char* text);
+	Object(const char* obj, const int damage, const bool isOpen, const vector<Object*> objectsList);
+	Object(const char* obj, const int damage);
 	Object();
 	~Object();
 
-	const char* getName();
-	const char* getContent();
-	const bool getReadable();
-	const bool getOpenable();
-	const int getDamageAttack();
-	const bool getOpen();
+	const char* getName() const;
+	const char* getContent() const;
+	const bool getReadable() const;
+	const bool getOpenable() const;
+	const int getDamageAttack() const;
+	const bool getOpen() const;
 	const void setOpen(bool nowOpen);
 
-	vector<Object> objects;
+	vector<Object*> objects;
 
 private:
 	const char* name;

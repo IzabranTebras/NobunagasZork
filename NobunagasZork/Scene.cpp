@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(const char* title, const string text, vector<Object> sceneObjectList)
+Scene::Scene(const char* title, const string text, const vector<Object*> sceneObjectList)
 {
 	name = title;
 	description = text;
@@ -22,47 +22,46 @@ Scene::Scene()
 Scene::~Scene()
 {
 	objects.clear();
-	objects.~vector();
 }
 
-void Scene::ConnectRooms(Scene &ptrnorth, Scene &ptreast, Scene &ptrsouth, Scene &ptrwest) {
-	north = &ptrnorth;
-	east = &ptreast;
-	south = &ptrsouth;
-	west = &ptrwest;
+void Scene::ConnectRooms(Scene *ptrnorth, Scene *ptreast, Scene *ptrsouth, Scene *ptrwest) {
+	north = ptrnorth;
+	east = ptreast;
+	south = ptrsouth;
+	west = ptrwest;
 }
 
-const string Scene::getDescription()
+const string Scene::getDescription() const
 {
 	return description;
 }
 
-const char * Scene::getName()
+const char * Scene::getName() const
 {
 	return name;
 }
 
-const bool Scene::getAlarm()
+const bool Scene::getAlarm() const
 {
 	return alarm;
 }
 
-Scene * Scene::getNorth()
+Scene *Scene::getNorth() const
 {
 	return north;
 }
 
-Scene * Scene::getSouth()
+Scene *Scene::getSouth() const
 {
 	return south;
 }
 
-Scene * Scene::getWest()
+Scene *Scene::getWest() const
 {
 	return west;
 }
 
-Scene * Scene::getEast()
+Scene *Scene::getEast() const
 {
 	return east;
 }
