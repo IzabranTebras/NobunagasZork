@@ -9,10 +9,11 @@
 class Player : public Character
 {
 public:
-	Player(Scene *loc, vector<Object*> playerObjectsList, int life);
+	Player(Scene *loc, vector<Object*> playerObjectsList, int life, int agility, int damage);
 	Player();
 	~Player();
 
+	int Attack(NPC *enemy);
 	string Go(char* direction);
 	string Read(char* objName);
 	string Drop(char* objName);
@@ -22,6 +23,8 @@ public:
 	string Open(char* objOpenable);
 	string Throw(char* obj, NPC *target);
 	string Kill(NPC *enemy);
-};
 
+	bool alarm = false;
+	Scene *localization;
+}; 
 #endif

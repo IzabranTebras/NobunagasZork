@@ -13,7 +13,7 @@ Object::Object(const char* obj, const int num, const char* text)
 	name = obj;
 	damageAttack = num;
 	readable = true;
-	content = text;
+	lecture = text;
 	openable = false;
 }
 
@@ -43,9 +43,9 @@ const char* Object::getName() const
 	return name;
 }
 
-const char* Object::getContent() const
+const char* Object::getLecture() const
 {
-	return content;
+	return lecture;
 }
 
 const bool Object::getReadable() const

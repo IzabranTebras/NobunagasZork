@@ -2,8 +2,8 @@
 #include <conio.h>
 #include "Character.h"
 #include "Object.h"
-#include "Player.h"
 #include "NPC.h"
+#include "Player.h"
 #include "World.h"
 #include <vector>
 
@@ -20,10 +20,11 @@ enum states
 	THROW
 };
 
-bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList) {
+bool Input(states state, char* command, Player *player) {
 	int i;
 	int j;
 	char* special[2];
+	const int MAX = 2;
 	bool fin = false;
 
 	switch (state) {
@@ -37,8 +38,7 @@ bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList
 	case TAKE:
 		command = strtok(NULL, " ");
 		i = 0;
-		special[i];
-		while (special[i] = strtok(NULL, " ")) {
+		while ((i<MAX) && (special[i] = strtok(NULL, " "))) {
 			++i;
 		}
 		//i = 2 -> kunai = 0, from = 1 and box = 2
@@ -65,8 +65,7 @@ bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList
 	case DROP:
 		command = strtok(NULL, " ");
 		i = 0;
-		special[i];
-		while (special[i] = strtok(NULL, " ")) {
+		while ((i<MAX) && (special[i] = strtok(NULL, " "))) {
 			++i;
 		}
 		//i = 2 -> kunai = 0, from = 1 and box = 2
@@ -89,11 +88,11 @@ bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList
 			cout << player->Open(command) + "\n";
 
 			i = 0;
-			while ((player->room->objects.size() > i) && (strcmp(player->room->objects[i]->getName(), command) != 0)) {
+			while ((player->localization->objects.size() > i) && (strcmp(player->localization->objects[i]->getName(), command) != 0)) {
 				++i;
 			}
-			for (int j = 0; j < player->room->objects[i]->objects.size(); ++j) {
-				cout << "- " + string(player->room->objects[i]->objects[j]->getName()) + "\n";
+			for (int j = 0; j < player->localization->objects[i]->objects.size(); ++j) {
+				cout << "- " + string(player->localization->objects[i]->objects[j]->getName()) + "\n";
 			}
 		}
 		else {
@@ -104,23 +103,24 @@ bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList
 	case KILL:
 		command = strtok(NULL, " ");
 		if (command != NULL) {
-			//busco el enemigo que quiere atacar
+
+			// We search the enemy that we would kill
 			j = 0;
-			while (enemiesList.size() > j) {
-				if ((strcmp(enemiesList[j]->getName(), command) != 0) || (strcmp(player->room->getName(), enemiesList[j]->room->getName()) != 0)) {
+			while (player->localization->npcs.size() > j) {
+				if (strcmp(player->localization->npcs[j]->getName(), command) != 0) {
 					++j;
 				}
 				else {
 					break;
 				}
 			}
-			if (j < enemiesList.size()) {
-				cout << player->Kill(enemiesList[j]);
-				if (enemiesList[j]->health < 1) {
-					if (strcmp(enemiesList[j]->getName(), "nobunaga") == 0) {
+			if (j < player->localization->npcs.size()) {
+				cout << player->Kill(player->localization->npcs[j]);
+				if (player->localization->npcs[j]->health < 1) {
+					if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
 						fin = true;
 					}
-					enemiesList.erase(enemiesList.begin() + j);
+					player->localization->npcs.erase(player->localization->npcs.begin() + j);
 				}
 			}
 			else {
@@ -135,29 +135,29 @@ bool Input(states state, char* command, Player *player, vector<NPC*> enemiesList
 	case THROW:
 		command = strtok(NULL, " ");
 		i = 0;
-		//busco todas las palabras de la linea
+		// We search all the words of a string
 		while (special[i] = strtok(NULL, " ")) {
 			++i;
 		}
 
 		if ((command != NULL) && (i == 2)) {
-			//busco el enemigo que quiere atacar
+			// We search the enemy that we would attack
 			j = 0;
-			while (enemiesList.size() > j) {
-				if ((strcmp(enemiesList[j]->getName(), special[1]) != 0) || (strcmp(player->room->getName(), enemiesList[j]->room->getName()) != 0)) {
+			while (player->localization->npcs.size() > j) {
+				if (strcmp(player->localization->npcs[j]->getName(), special[1]) != 0) {
 					++j;
 				}
 				else {
 					break;
 				}
 			}
-			if (j < enemiesList.size()) {
-				cout << player->Throw(command, enemiesList[j]) + "\n";
-				if (enemiesList[j]->health < 1) {
-					if (strcmp(enemiesList[j]->getName(), "nobunaga") == 0) {
+			if (j < player->localization->npcs.size()) {
+				cout << player->Throw(command, player->localization->npcs[j]) + "\n";
+				if (player->localization->npcs[j]->health < 1) {
+					if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
 						fin = true;
 					}
-					enemiesList.erase(enemiesList.begin() + j);
+					player->localization->npcs.erase(player->localization->npcs.begin() + j);
 				}
 			}
 			else {
@@ -186,7 +186,7 @@ int main() {
 
 	world->Init();
 
-	cout << world->player->room->getDescription() + "\n\n";
+	cout << world->player->localization->getDescription() + "\n\n";
 
 	//Game loop
 	while(!fin){
@@ -194,43 +194,111 @@ int main() {
 		{
 			cin.getline(str, 200);
 			command = strtok(str, " ");
-			if (command == NULL) {
-				cout << "What you want to do?!\n\n";
-			}
-			else {
-				if (strcmp(command, "go") == 0) {
-					fin = Input(GO, command, world->player, world->enemiesList);
+			if (world->player->alarm == false) {
+				if (command == NULL) {
+					cout << "What do you want to do?!\n\n";
 				}
 				else {
-					if (strcmp(command, "read") == 0) {
-						fin = Input(READ, command, world->player, world->enemiesList);
+					if (strcmp(command, "go") == 0) {
+						fin = Input(GO, command, world->player);
 					}
 					else {
-						if (strcmp(command, "take") == 0) {
-							fin = Input(TAKE, command, world->player, world->enemiesList);
+						if (strcmp(command, "read") == 0) {
+							fin = Input(READ, command, world->player);
 						}
 						else {
-							if (strcmp(command, "drop") == 0) {
-								fin = Input(DROP, command, world->player, world->enemiesList);
+							if (strcmp(command, "take") == 0) {
+								fin = Input(TAKE, command, world->player);
 							}
 							else {
-								if (strcmp(command, "open") == 0) {
-									fin = Input(OPEN, command, world->player, world->enemiesList);
+								if (strcmp(command, "drop") == 0) {
+									fin = Input(DROP, command, world->player);
 								}
 								else {
-									if (strcmp(command, "kill") == 0) {
-										fin = Input(KILL, command, world->player, world->enemiesList);
+									if (strcmp(command, "open") == 0) {
+										fin = Input(OPEN, command, world->player);
 									}
 									else {
-										if (strcmp(command, "throw") == 0) {
-											fin = Input(THROW, command, world->player, world->enemiesList);
+										if (strcmp(command, "kill") == 0) {
+											fin = Input(KILL, command, world->player);
 										}
 										else {
-											cout << "I don't understand you, guy!\n\n";
+											if (strcmp(command, "throw") == 0) {
+												fin = Input(THROW, command, world->player);
+											}
+											else {
+												cout << "I don't understand you, guy!\n\n";
+											}
 										}
 									}
 								}
 							}
+						}
+					}
+				}
+			}
+			else {
+				char* election;	
+				switch (rand() % 3) // 0 -> attack, 1 -> avoid, 2 -> defense
+				{
+				case 0:
+					election = "rock";
+					break;
+				case 1:
+					election = "paper";
+					break;
+				case 2:
+					election = "scissor";
+					break;
+				}
+
+				if ((command == NULL) || ((strcmp(command, "rock") != 0) && (strcmp(command, "paper") != 0) && (strcmp(command, "scissor") != 0))) {
+					cout << "What do you choose?!\n\n";
+				}
+				else {
+					printf("\nHe choose %s and you choose %s \n", election, command);
+
+					if (strcmp(command, election) == 0) {
+						printf("DRAW!!\n\n");
+					}
+					else {
+						int attack;
+
+						// We comprove if the player wins against the enemy
+						if (((strcmp(command, "rock") == 0) && (strcmp(election, "scissor") == 0)) || ((strcmp(command, "paper") == 0) && (strcmp(election, "rock") == 0)) || ((strcmp(command, "scissor") == 0) && (strcmp(election, "paper") == 0))) {
+							attack = world->player->Attack(world->player->localization->npcs[0]);
+							world->player->localization->npcs[0]->health -= attack;
+							printf("HIT %d \n\n", attack);
+							printf("Your health: %d \n", world->player->health);
+
+							// We delete the pointer and remove it from vector
+							if (world->player->localization->npcs[0]->health < 1) {
+								printf("Enemy health: 0\n\n");
+								delete (world->player->localization->npcs[0]);
+								world->player->localization->npcs.erase(world->player->localization->npcs.begin());
+								printf("NICE! You knock out the enemy!\n");
+
+								// When all the enemies in the zone are dead the alarm disappears
+								if (world->player->localization->npcs.empty()) {
+									printf("All the enemies are down. The alarm is off.\n\n");
+									world->player->alarm = false;
+									printf(world->player->localization->getDescription().c_str());
+								}
+								else {
+									printf("Next enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+								}
+							}
+							else {
+								printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+								printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
+							}
+						}
+						else {
+							attack = world->player->localization->npcs[0]->Attack(world->player);
+							world->player->health -= attack;
+							printf("HIT %d \n\n", attack);
+							printf("Your health: %d \n", world->player->health);
+							printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
 						}
 					}
 				}

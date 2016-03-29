@@ -11,7 +11,4 @@ Character::~Character()
 	objects.~vector();
 }
 
-int Character::Attack()
-{
-	return 0;
-}
+

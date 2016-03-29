@@ -1,7 +1,6 @@
 #ifndef __Object__
 #define __Object__
 
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -16,7 +15,7 @@ public:
 	~Object();
 
 	const char* getName() const;
-	const char* getContent() const;
+	const char* getLecture() const;
 	const bool getReadable() const;
 	const bool getOpenable() const;
 	const int getDamageAttack() const;
@@ -28,7 +27,7 @@ public:
 private:
 	const char* name;
 	bool readable;
-	const char* content;
+	const char* lecture;
 	bool openable;
 	int damageAttack;
 	bool open;

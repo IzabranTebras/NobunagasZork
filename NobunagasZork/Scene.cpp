@@ -1,18 +1,9 @@
 #include "Scene.h"
 
-Scene::Scene(const char* title, const string text, const vector<Object*> sceneObjectList)
-{
-	name = title;
-	description = text;
-	objects = sceneObjectList;
-	alarm = false;
-}
-
 Scene::Scene(char* title, const string text)
 {
 	name = title;
 	description = text;
-	alarm = false;
 }
 
 Scene::Scene()
@@ -39,11 +30,6 @@ const string Scene::getDescription() const
 const char * Scene::getName() const
 {
 	return name;
-}
-
-const bool Scene::getAlarm() const
-{
-	return alarm;
 }
 
 Scene *Scene::getNorth() const

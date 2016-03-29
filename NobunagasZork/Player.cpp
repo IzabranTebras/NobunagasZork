@@ -1,10 +1,14 @@
 #include "Player.h"
+#include <time.h>
+#include <iostream>
 
-Player::Player(Scene *loc, vector<Object*> playerObjectsList, int life)
+Player::Player(Scene *loc, vector<Object*> playerObjectsList, int life, int agility, int damage)
 {
-	room = loc;
+	localization = loc;
 	objects = playerObjectsList;
 	health = life;
+	speed = agility;
+	damageAttack = damage;
 }
 
 Player::Player()
@@ -18,12 +22,28 @@ Player::~Player()
 	objects.~vector();
 }
 
+int Player::Attack(NPC *enemy)
+{
+	// With armour the damage is divided
+	if (enemy->getArmour()) {
+		return damageAttack/2;
+	}
+	return damageAttack;
+}
+
 // Function that comproves the moves
 string Player::Go(char* direction)
 {
 	if (strcmp(direction, "north") == 0) {
-		if (room->getNorth() != NULL) {
-			room = room->getNorth();
+		if (localization->getNorth() != NULL) {
+			if (localization->npcs.size() == 0) {
+				localization = localization->getNorth();
+			}
+			else {
+				alarm = true;
+				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+			}
 		}
 		else {
 			return "You can't see any such thing.\n\n";
@@ -31,8 +51,15 @@ string Player::Go(char* direction)
 	}
 	else {
 		if (strcmp(direction, "south") == 0) {
-			if (room->getSouth() != NULL) {
-				room = room->getSouth();
+			if (localization->getSouth() != NULL) {
+				if (localization->npcs.size() == 0) {
+					localization = localization->getSouth();
+				}
+				else {
+					alarm = true;
+					cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+				}
 			}
 			else {
 				return "You can't see any such thing.\n\n";
@@ -40,8 +67,15 @@ string Player::Go(char* direction)
 		}
 		else {
 			if (strcmp(direction, "east") == 0) {
-				if (room->getEast() != NULL) {
-					room = room->getEast();
+				if (localization->getEast() != NULL) {
+					if (localization->npcs.size() == 0) {
+						localization = localization->getEast();
+					}
+					else {
+						alarm = true;
+						cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+						return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+					}
 				}
 				else {
 					return "You can't see any such thing.\n\n";
@@ -49,8 +83,15 @@ string Player::Go(char* direction)
 			}
 			else {
 				if (strcmp(direction, "west") == 0) {
-					if (room->getWest() != NULL) {
-						room = room->getWest();
+					if (localization->getWest() != NULL) {
+						if (localization->npcs.size() == 0) {
+							localization = localization->getWest();
+						}
+						else {
+							alarm = true;
+							cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+							return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+						}
 					}
 					else {
 						return "You can't see any such thing.\n\n";
@@ -63,7 +104,7 @@ string Player::Go(char* direction)
 		}
 	}
 
-	return room->getDescription() + "\n\n";
+	return localization->getDescription() + "\n\n";
 }
 
 // Function that comproves if an object is readable
@@ -83,7 +124,7 @@ string Player::Read(char* objName)
 			return "I'm sorry but i think that you don't have these object...\n\n";
 		}
 	}
-	return string(objects[i]->getContent()) + "\n\n";
+	return string(objects[i]->getLecture()) + "\n\n";
 }
 
 // Function that manages the drop of an objet into a room
@@ -95,7 +136,7 @@ string Player::Drop(char* objName)
 			++i;
 		}
 		if (i < objects.size()) {
-			room->objects.push_back(objects[i]);		// The object is added to the room objects list
+			localization->objects.push_back(objects[i]);		// The object is added to the room objects list
 			objects.erase(objects.begin() + i);			// The object is removed from the objects list of the player
 		}
 		else {
@@ -110,16 +151,16 @@ string Player::Drop(char * objName, char * container)
 {
 	int i = 0, j = 0;
 
-	if (room->objects.empty() == false) {
-		while ((room->objects.size() > i) && (strcmp(room->objects[i]->getName(), container) != 0)) {
+	if (localization->objects.empty() == false) {
+		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), container) != 0)) {
 			++i;
 		}
-		if (i < room->objects.size()) {
-			if (room->objects[i]->getOpen() == true) {
+		if (i < localization->objects.size()) {
+			if (localization->objects[i]->getOpen() == true) {
 				while ((objects.size() > j) && (strcmp(objects[j]->getName(), objName) != 0)) {
 					++j;
 				}
-				room->objects[i]->objects.push_back(objects[j]);		// The object is added to the container objects list
+				localization->objects[i]->objects.push_back(objects[j]);		// The object is added to the container objects list
 				objects.erase(objects.begin() + j);						// The object is removed from the objects list of the player
 			}
 			else {
@@ -137,13 +178,13 @@ string Player::Drop(char * objName, char * container)
 string Player::Take(char * objName)
 {
 	int i = 0;
-	if (room->objects.empty() == false) {
-		while ((room->objects.size() > i) && (strcmp(room->objects[i]->getName(), objName) != 0)) {
+	if (localization->objects.empty() == false) {
+		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), objName) != 0)) {
 			++i;
 		}
-		if (i < room->objects.size()) {
-			objects.push_back(room->objects[i]);				// The object is added to the objects list of the player container objects list
-			room->objects.erase(room->objects.begin() + i);		// The object is removed from the objects list of the room
+		if (i < localization->objects.size()) {
+			objects.push_back(localization->objects[i]);				// The object is added to the objects list of the player container objects list
+			localization->objects.erase(localization->objects.begin() + i);		// The object is removed from the objects list of the room
 		}
 		else {
 			return "I'm sorry but there is no object with that name here.\n\n";
@@ -157,18 +198,23 @@ string Player::Take(char * objName, char * container)
 {
 	int i=0 ,j = 0;
 
-	if (room->objects.empty() == false) {
-		while ((room->objects.size() > i) && (strcmp(room->objects[i]->getName(), container) != 0)) {		// Search container
+	if (localization->objects.empty() == false) {
+		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), container) != 0)) {		// Search container
 			++i;
 		}
-		if (i < room->objects.size()) {
-			if (room->objects[i]->getOpen() == true) {
-				while ((room->objects[i]->objects.size() > j) && (strcmp(room->objects[i]->objects[j]->getName(), objName) != 0)) {		// Search object in container
+		if (i < localization->objects.size()) {
+			if (localization->objects[i]->getOpen() == true) {
+				while ((localization->objects[i]->objects.size() > j) && (strcmp(localization->objects[i]->objects[j]->getName(), objName) != 0)) {		// Search object in container
 					++j;
 				}
-				if (strcmp(room->objects[i]->objects[j]->getName(), container) == 0) {
-					objects.push_back(room->objects[i]->objects[j]);							// The object is added to the objects list of the player
-					room->objects[i]->objects.erase(room->objects[i]->objects.begin() + j);		// The object is removed from container objects list
+				if (j < localization->objects[i]->objects.size()) {
+					if (strcmp(localization->objects[i]->objects[j]->getName(), container) == 0) {
+						objects.push_back(localization->objects[i]->objects[j]);							// The object is added to the objects list of the player
+						localization->objects[i]->objects.erase(localization->objects[i]->objects.begin() + j);		// The object is removed from container objects list
+					}
+				}
+				else {
+					return "I'm sorry but there is no object inside this container with that name.\n\n";
 				}
 			}
 			else {
@@ -176,7 +222,7 @@ string Player::Take(char * objName, char * container)
 			}
 		}
 		else {
-			return "I'm sorry but there is no object with that name here.\n\n";
+			return "I'm sorry but there is no object container with that name here.\n\n";
 		}
 	}
 	return string(objName) + " taken.\n\n";
@@ -187,15 +233,15 @@ string Player::Open(char * objOpenable)
 {
 	int i = 0;
 
-	if (room->objects.empty() == false) {
-		while ((room->objects.size() > i) && (strcmp(room->objects[i]->getName(), objOpenable) != 0)) {
+	if (localization->objects.empty() == false) {
+		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), objOpenable) != 0)) {
 			++i;
 		}
-		if (i < room->objects.size()) {
-			if (room->objects[i]->getOpenable() == true) {		// if is an openable object
-				if (room->objects[i]->getOpen() == false) {		// if the object isn't open yet
-					room->objects[i]->setOpen(true);
-					if (room->objects[i]->objects.empty() == true) {
+		if (i < localization->objects.size()) {
+			if (localization->objects[i]->getOpenable() == true) {		// if is an openable object
+				if (localization->objects[i]->getOpen() == false) {		// if the object isn't open yet
+					localization->objects[i]->setOpen(true);
+					if (localization->objects[i]->objects.empty() == true) {
 						return "Nothing inside.\n\n";
 					}
 				}
@@ -242,7 +288,7 @@ string Player::Throw(char * obj, NPC *target)
 // Function that comproves and manages the stealth kill
 string Player::Kill(NPC *enemy)
 {
-	if (room->getAlarm() == false) {			// Only is possible kill a enemy with stealth if the alarm is disable
+	if (alarm == false) {			// Only is possible kill a enemy with stealth if the alarm is disable
 		enemy->health = 0;
 		return "Enemy killed.\n\n";
 	}
