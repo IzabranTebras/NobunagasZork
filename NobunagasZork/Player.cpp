@@ -36,7 +36,7 @@ string Player::Go(char* direction)
 {
 	if (strcmp(direction, "north") == 0) {
 		if (localization->getNorth() != NULL) {
-			if (localization->npcs.size() == 0) {
+			if ((localization->npcs.size() == 0) || (smoke == true)) {
 				localization = localization->getNorth();
 			}
 			else {
@@ -52,7 +52,7 @@ string Player::Go(char* direction)
 	else {
 		if (strcmp(direction, "south") == 0) {
 			if (localization->getSouth() != NULL) {
-				if (localization->npcs.size() == 0) {
+				if ((localization->npcs.size() == 0) || (smoke == true)) {
 					localization = localization->getSouth();
 				}
 				else {
@@ -68,7 +68,7 @@ string Player::Go(char* direction)
 		else {
 			if (strcmp(direction, "east") == 0) {
 				if (localization->getEast() != NULL) {
-					if (localization->npcs.size() == 0) {
+					if ((localization->npcs.size() == 0) || (smoke == true)) {
 						localization = localization->getEast();
 					}
 					else {
@@ -84,7 +84,7 @@ string Player::Go(char* direction)
 			else {
 				if (strcmp(direction, "west") == 0) {
 					if (localization->getWest() != NULL) {
-						if (localization->npcs.size() == 0) {
+						if ((localization->npcs.size() == 0) || (smoke == true)) {
 							localization = localization->getWest();
 						}
 						else {
@@ -103,8 +103,12 @@ string Player::Go(char* direction)
 			}
 		}
 	}
-
-	return localization->getDescription() + "\n\n";
+	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+		return localization->getDescription() + "\n\n";
+	}
+	else {
+		return localization->alternativeDescription + "\n\n";
+	}
 }
 
 // Function that comproves if an object is readable
@@ -182,9 +186,15 @@ string Player::Take(char * objName)
 		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), objName) != 0)) {
 			++i;
 		}
+
 		if (i < localization->objects.size()) {
 			objects.push_back(localization->objects[i]);				// The object is added to the objects list of the player container objects list
 			localization->objects.erase(localization->objects.begin() + i);		// The object is removed from the objects list of the room
+
+			if (strcmp("katana", objName) == 0) {
+				damageAttack = objects[objects.size()]->getDamageAttack();
+				return "You obtained Masamune! With this katana your damaged increased greatly.\n\n";
+			}
 		}
 		else {
 			return "I'm sorry but there is no object with that name here.\n\n";
@@ -196,7 +206,7 @@ string Player::Take(char * objName)
 // Function that manages take an object of a container
 string Player::Take(char * objName, char * container)
 {
-	int i=0 ,j = 0;
+	int i = 0, j = 0;
 
 	if (localization->objects.empty() == false) {
 		while ((localization->objects.size() > i) && (strcmp(localization->objects[i]->getName(), container) != 0)) {		// Search container
@@ -273,6 +283,16 @@ string Player::Throw(char * obj, NPC *target)
 		if (i < objects.size()) {
 			target->health -= objects[i]->getDamageAttack();		// The target take the damage of the object
 			objects.erase(objects.begin() + i);						// The object is lost
+			alarm = true;
+			if (strcmp("smoke", obj) == 0){
+				alarm = false;
+				smoke = true;
+				return "Enemies are stunt.\n\n";
+			}
+
+			if (strcmp("carp", obj) == 0) {
+				return "The carp exploded and killed the enemy!! \n\n";
+			}
 
 			if (target->health < 1) {		// Poner que el target desaparece
 				return "Enemy killed. \n\n";
@@ -290,6 +310,17 @@ string Player::Kill(NPC *enemy)
 {
 	if (alarm == false) {			// Only is possible kill a enemy with stealth if the alarm is disable
 		enemy->health = 0;
+		if ((localization->npcs.size() != 0) && (smoke == false)) {
+			alarm = true;
+			cout << "\nEnemy killed.";
+			cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+			return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+		}
+		else {
+			if (localization->npcs.size() == 1) {
+				cout << "All the enemies are down. The alarm is off.\n";
+			}
+		}
 		return "Enemy killed.\n\n";
 	}
 	else {

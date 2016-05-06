@@ -5,7 +5,7 @@
 
 NPC::NPC(const char *enemyName, const int life, const int attackDamage, int agility, const bool armoured)
 {
-	name = new char (*enemyName);
+	name = enemyName;
 	health = life;
 	damageAttack = attackDamage;
 	armour = armoured;
@@ -19,7 +19,6 @@ NPC::NPC()
 
 NPC::~NPC()
 {
-	delete (name);
 }
 
 int NPC::Attack(Character *player)
@@ -39,7 +38,7 @@ int NPC::Attack(Character *player)
 		random = rand() % damageAttack + 1;
 		return random;
 	}
-	printf("You avoid the attack!!");
+	printf("You avoid the attack!!\n");
 	return 0;
 }
 

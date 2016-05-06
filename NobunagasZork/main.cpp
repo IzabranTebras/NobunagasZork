@@ -32,6 +32,7 @@ bool Input(states state, char* command, Player *player) {
 		command = strtok(NULL, " ");
 		if (command != NULL) {
 			cout << player->Go(command);
+			player->smoke = false;
 		}
 		break;
 
@@ -68,7 +69,7 @@ bool Input(states state, char* command, Player *player) {
 		while ((i<MAX) && (special[i] = strtok(NULL, " "))) {
 			++i;
 		}
-		//i = 2 -> kunai = 0, from = 1 and box = 2
+		//i = 2 -> kunai = 0, to = 1 and box = 2
 		if (command != NULL) {
 			if (i == 2) {
 				cout << player->Drop(command, special[1]);
@@ -136,7 +137,7 @@ bool Input(states state, char* command, Player *player) {
 		command = strtok(NULL, " ");
 		i = 0;
 		// We search all the words of a string
-		while (special[i] = strtok(NULL, " ")) {
+		while ((i<MAX) && (special[i] = strtok(NULL, " "))) {
 			++i;
 		}
 
@@ -153,7 +154,7 @@ bool Input(states state, char* command, Player *player) {
 			}
 			if (j < player->localization->npcs.size()) {
 				cout << player->Throw(command, player->localization->npcs[j]) + "\n";
-				if (player->localization->npcs[j]->health < 1) {
+				if (player->localization->npcs[j]->health <= 1) {
 					if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
 						fin = true;
 					}
@@ -172,7 +173,6 @@ bool Input(states state, char* command, Player *player) {
 	default:
 		cout << "I don't understand you, guy!\n\n";
 	}
-
 	return fin;
 }
 
@@ -239,7 +239,7 @@ int main() {
 			}
 			else {
 				char* election;	
-				switch (rand() % 3) // 0 -> attack, 1 -> avoid, 2 -> defense
+				switch (rand() % 3) // 0 -> rock, 1 -> paper, 2 -> scissor
 				{
 				case 0:
 					election = "rock";
@@ -252,54 +252,62 @@ int main() {
 					break;
 				}
 
-				if ((command == NULL) || ((strcmp(command, "rock") != 0) && (strcmp(command, "paper") != 0) && (strcmp(command, "scissor") != 0))) {
+				if ((command == NULL) || ((strcmp(command, "rock") != 0) && (strcmp(command, "paper") != 0) && (strcmp(command, "scissor") != 0) && (strcmp(command, "smoke") != 0))) {
 					cout << "What do you choose?!\n\n";
 				}
 				else {
-					printf("\nHe choose %s and you choose %s \n", election, command);
+					if (strcmp(command, "smoke") != 0) {
+						printf("\nHe choose %s and you choose %s \n", election, command);
 
-					if (strcmp(command, election) == 0) {
-						printf("DRAW!!\n\n");
-					}
-					else {
-						int attack;
-
-						// We comprove if the player wins against the enemy
-						if (((strcmp(command, "rock") == 0) && (strcmp(election, "scissor") == 0)) || ((strcmp(command, "paper") == 0) && (strcmp(election, "rock") == 0)) || ((strcmp(command, "scissor") == 0) && (strcmp(election, "paper") == 0))) {
-							attack = world->player->Attack(world->player->localization->npcs[0]);
-							world->player->localization->npcs[0]->health -= attack;
-							printf("HIT %d \n\n", attack);
+						if (strcmp(command, election) == 0) {
+							printf("DRAW!!\n\n");
 							printf("Your health: %d \n", world->player->health);
+							printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+							printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
+						}
+						else {
+							int attack;
 
-							// We delete the pointer and remove it from vector
-							if (world->player->localization->npcs[0]->health < 1) {
-								printf("Enemy health: 0\n\n");
-								delete (world->player->localization->npcs[0]);
-								world->player->localization->npcs.erase(world->player->localization->npcs.begin());
-								printf("NICE! You knock out the enemy!\n");
+							// We comprove if the player wins against the enemy
+							if (((strcmp(command, "rock") == 0) && (strcmp(election, "scissor") == 0)) || ((strcmp(command, "paper") == 0) && (strcmp(election, "rock") == 0)) || ((strcmp(command, "scissor") == 0) && (strcmp(election, "paper") == 0))) {
+								attack = world->player->Attack(world->player->localization->npcs[0]);
+								world->player->localization->npcs[0]->health -= attack;
+								printf("HIT %d \n\n", attack);
+								printf("Your health: %d \n", world->player->health);
 
-								// When all the enemies in the zone are dead the alarm disappears
-								if (world->player->localization->npcs.empty()) {
-									printf("All the enemies are down. The alarm is off.\n\n");
-									world->player->alarm = false;
-									printf(world->player->localization->getDescription().c_str());
+								// We delete the pointer and remove it from vector
+								if (world->player->localization->npcs[0]->health < 1) {
+									printf("Enemy health: 0\n\n");
+									delete (world->player->localization->npcs[0]);
+									world->player->localization->npcs.erase(world->player->localization->npcs.begin());
+									printf("NICE! You knock out the enemy!\n");
+
+									// When all the enemies in the zone are dead the alarm disappears
+									if (world->player->localization->npcs.empty()) {
+										printf("All the enemies are down. The alarm is off.\n\n");
+										world->player->alarm = false;
+										printf(world->player->localization->getDescription().c_str());
+									}
+									else {
+										printf("Next enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+									}
 								}
 								else {
-									printf("Next enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+									printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
+									printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
 								}
 							}
 							else {
+								attack = world->player->localization->npcs[0]->Attack(world->player);
+								world->player->health -= attack;
+								printf("HIT %d \n\n", attack);
+								printf("Your health: %d \n", world->player->health);
 								printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
-								printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
 							}
 						}
-						else {
-							attack = world->player->localization->npcs[0]->Attack(world->player);
-							world->player->health -= attack;
-							printf("HIT %d \n\n", attack);
-							printf("Your health: %d \n", world->player->health);
-							printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
-						}
+					}
+					else {
+						world->player->alarm = false;
 					}
 				}
 			}

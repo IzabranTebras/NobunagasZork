@@ -25,6 +25,7 @@ public:
 
 	vector<Object*> objects;
 	vector<NPC*> npcs;
+	string alternativeDescription;
 
 private:
 	string description;

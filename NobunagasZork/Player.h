@@ -25,6 +25,7 @@ public:
 	string Kill(NPC *enemy);
 
 	bool alarm = false;
+	bool smoke = false;
 	Scene *localization;
 }; 
 #endif
