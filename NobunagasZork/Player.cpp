@@ -192,7 +192,7 @@ string Player::Take(char * objName)
 			localization->objects.erase(localization->objects.begin() + i);		// The object is removed from the objects list of the room
 
 			if (strcmp("katana", objName) == 0) {
-				damageAttack = objects[objects.size()]->getDamageAttack();
+				damageAttack = objects[objects.size()-1]->getDamageAttack();
 				return "You obtained Masamune! With this katana your damaged increased greatly.\n\n";
 			}
 		}
