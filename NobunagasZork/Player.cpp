@@ -208,12 +208,7 @@ string Player::Take(char * objName)
 			return "I'm sorry but there is no object with that name here.\n\n";
 		}
 	}
-	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
-		printf(localization->getDescription().c_str + "\n\n");
-	}
-	else {
-		printf(localization->alternativeDescription.c_str + "\n\n");
-	}
+
 	return (string(objName) + " taken.\n\n");
 }
 
@@ -251,10 +246,10 @@ string Player::Take(char * objName, char * container)
 	}
 
 	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
-		printf(localization->getDescription().c_str + "\n\n");
+		printf(localization->getDescription().c_str());
 	}
 	else {
-		printf(localization->alternativeDescription.c_str + "\n\n");
+		printf(localization->alternativeDescription.c_str());
 	}
 	return (string(objName) + " taken.\n\n");
 }
