@@ -39,6 +39,7 @@ int NPC::Attack(Character *player)
 		return random;
 	}
 	printf("You avoid the attack!!\n");
+	printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
 	return 0;
 }
 

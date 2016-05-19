@@ -1,3 +1,4 @@
+
 #include "World.h"
 
 World::World()
@@ -15,7 +16,7 @@ void World::Init()
 	Scene *pb1 = new Scene("PB1", "\nWest of Himeji castle\nYou are in the garden of Himeji castle. You can see some trees and walls to North and West.\n\n");
 	Scene *pb2 = new Scene("PB2", "\nSouth-West of Himeji castle\nYou are in the garden of Himeji castle. You can see more trees and walls to South and East. Seems that nobody is guarding.\n\n");
 	Scene *pb3 = new Scene("PB3", "\nSouth of Himeji castle\nYou can see two guards without armour on the stairs to the castle door (North). To South you can see the wall door closed, to East you can hear somelike water flowing and to West you can see some trees.\n\n");
-	Scene *pb4 = new Scene("PB4", "\nSouth-East of Himeji castle\nYou can see a river with a red carp. To West you can see the entry of the castle, to North you can hear a little waterfall and East and South have walls.\n\n");
+	Scene *pb4 = new Scene("PB4", "\nSouth-East of Himeji castle\nYou can see a river and in the water a carp. To West you can see the entry of the castle, to North you can hear a little waterfall and East and South have walls.\n\n");
 	Scene *pb5 = new Scene("PB5", "\nEast of Himeji castle\nYou can see a little waterfall with a little lake, tipical Japanese garden. To South the lake advance in a river form. North, East and West are walls. A sentinel is watching the river.\n\n");
 	Scene *pb6 = new Scene("PB6", "\nInside the castle\nYou can see four columns in the center of the hall. Seems that any guard are guarding the hall. To East and West you can see stairs to the up floor. To South is the main entrance of the castle and in the north you can see a box in a shrine. In the shrine you can see a photo of a brown hair girl and a inscription that says: Aeris always will be alive in our hearts.\n\n");
 	Scene *p11 = new Scene("P11", "\nFirst floor hall\nYou can see four columns in the center of the hall. To East and West you can see stairs to the entrance of castle, to North you can see stairs to second floor and to South you can see a door.\n\n");

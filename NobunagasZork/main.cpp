@@ -286,7 +286,7 @@ int main() {
 									if (world->player->localization->npcs.empty()) {
 										printf("All the enemies are down. The alarm is off.\n\n");
 										world->player->alarm = false;
-										printf(world->player->localization->getDescription().c_str());
+										printf(world->player->localization->alternativeDescription.c_str());
 									}
 									else {
 										printf("Next enemy health: %d \n\n", world->player->localization->npcs[0]->health);

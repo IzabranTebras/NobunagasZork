@@ -103,6 +103,7 @@ string Player::Go(char* direction)
 			}
 		}
 	}
+
 	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
 		return localization->getDescription() + "\n\n";
 	}
@@ -193,14 +194,27 @@ string Player::Take(char * objName)
 
 			if (strcmp("katana", objName) == 0) {
 				damageAttack = objects[objects.size()-1]->getDamageAttack();
-				return "You obtained Masamune! With this katana your damaged increased greatly.\n\n";
+				printf("You obtained Masamune!\nWith this katana your damaged increased greatly.\n\n");
+
+				if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+					return localization->getDescription() + "\n\n";
+				}
+				else {
+					return localization->alternativeDescription + "\n\n";
+				}
 			}
 		}
 		else {
 			return "I'm sorry but there is no object with that name here.\n\n";
 		}
 	}
-	return string(objName) + " taken.\n\n";
+	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+		printf(localization->getDescription().c_str + "\n\n");
+	}
+	else {
+		printf(localization->alternativeDescription.c_str + "\n\n");
+	}
+	return (string(objName) + " taken.\n\n");
 }
 
 // Function that manages take an object of a container
@@ -235,7 +249,14 @@ string Player::Take(char * objName, char * container)
 			return "I'm sorry but there is no object container with that name here.\n\n";
 		}
 	}
-	return string(objName) + " taken.\n\n";
+
+	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+		printf(localization->getDescription().c_str + "\n\n");
+	}
+	else {
+		printf(localization->alternativeDescription.c_str + "\n\n");
+	}
+	return (string(objName) + " taken.\n\n");
 }
 
 // Function that manages the open of a container
@@ -291,11 +312,12 @@ string Player::Throw(char * obj, NPC *target)
 			}
 
 			if (strcmp("carp", obj) == 0) {
-				return "The carp exploded and killed the enemy!! \n\n";
+				printf("The carp exploded and killed the enemy!!\n");
+				target->health = 0;
 			}
 
 			if (target->health < 1) {		// Poner que el target desaparece
-				return "Enemy killed. \n\n";
+				return "Enemy killed.\n\n";
 			}
 		}
 		else {
