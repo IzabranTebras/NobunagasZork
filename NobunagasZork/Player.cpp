@@ -254,6 +254,23 @@ string Player::Take(char * objName, char * container)
 	return (string(objName) + " taken.\n\n");
 }
 
+// Function that manages take an object of a container
+string Player::Talk(char * talker)
+{
+	int i = 0;
+	if (localization->npcs.empty() == false) 
+	{
+		while ((localization->npcs.size() > i) && (strcmp(localization->npcs[i]->getName(), talker) != 0))
+		{
+			++i;
+		}
+		if (i < localization->npcs.size()) 
+		{
+			return (localization->npcs[i]->getConversation());
+		}
+	}
+}
+
 // Function that manages the open of a container
 string Player::Open(char * objOpenable)
 {

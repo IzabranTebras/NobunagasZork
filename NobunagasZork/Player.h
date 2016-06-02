@@ -16,6 +16,7 @@ public:
 	int Attack(NPC *enemy);
 	string Go(char* direction);
 	string Read(char* objName);
+	string Talk(char* talker);
 	string Drop(char* objName);
 	string Drop(char* objName, char* container);
 	string Take(char* objName);

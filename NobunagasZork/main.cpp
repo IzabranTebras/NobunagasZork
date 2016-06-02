@@ -17,7 +17,8 @@ enum states
 	DROP,
 	OPEN,
 	KILL,
-	THROW
+	THROW,
+	TALK
 };
 
 bool Input(states state, char* command, Player *player) {
@@ -116,12 +117,19 @@ bool Input(states state, char* command, Player *player) {
 				}
 			}
 			if (j < player->localization->npcs.size()) {
-				cout << player->Kill(player->localization->npcs[j]);
-				if (player->localization->npcs[j]->health < 1) {
-					if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
-						fin = true;
+				if (strcmp(player->localization->npcs[j]->getName(), "geisha") == 0)
+				{
+					cout << "WHAT ARE YOU TRYING TO DO!!?\n\n";
+				}
+				else
+				{
+					cout << player->Kill(player->localization->npcs[j]);
+					if (player->localization->npcs[j]->health < 1) {
+						if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
+							fin = true;
+						}
+						player->localization->npcs.erase(player->localization->npcs.begin() + j);
 					}
-					player->localization->npcs.erase(player->localization->npcs.begin() + j);
 				}
 			}
 			else {
@@ -152,13 +160,23 @@ bool Input(states state, char* command, Player *player) {
 					break;
 				}
 			}
-			if (j < player->localization->npcs.size()) {
-				cout << player->Throw(command, player->localization->npcs[j]) + "\n";
-				if (player->localization->npcs[j]->health <= 1) {
-					if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) {
-						fin = true;
+			if (j < player->localization->npcs.size()) 
+			{
+				if (strcmp(player->localization->npcs[j]->getName(), "geisha") == 0)
+				{
+					cout << "WHAT ARE YOU TRYING TO DO!!?\n\n";
+				}
+				else
+				{
+					cout << player->Throw(command, player->localization->npcs[j]) + "\n";
+					if (player->localization->npcs[j]->health <= 1) 
+					{
+						if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) 
+						{
+							fin = true;
+						}
+						player->localization->npcs.erase(player->localization->npcs.begin() + j);
 					}
-					player->localization->npcs.erase(player->localization->npcs.begin() + j);
 				}
 			}
 			else {
@@ -167,6 +185,20 @@ bool Input(states state, char* command, Player *player) {
 		}
 		else {
 			cout << "I don't understand you, guy!\n\n";
+		}
+		break;
+
+	case TALK:
+		command = strtok(NULL, " ");
+		if (command != NULL) {
+			if ((strcmp(command, "nobunaga") == 0) || (strcmp(command, "geisha") == 0))
+			{
+				cout << player->Talk(command);
+			}
+			else
+			{
+				cout << "You bastard, come here!!\n\n";
+			}
 		}
 		break;
 
@@ -227,6 +259,10 @@ int main() {
 												fin = Input(THROW, command, world->player);
 											}
 											else {
+												if (strcmp(command, "talk") == 0)
+												{
+													fin = Input(TALK, command, world->player);
+												}
 												cout << "I don't understand you, guy!\n\n";
 											}
 										}

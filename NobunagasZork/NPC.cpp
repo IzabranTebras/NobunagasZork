@@ -3,13 +3,14 @@
 
 
 
-NPC::NPC(const char *enemyName, const int life, const int attackDamage, int agility, const bool armoured)
+NPC::NPC(const char *enemyName, const int life, const int attackDamage, int agility, const bool armoured, string conver)
 {
 	name = enemyName;
 	health = life;
 	damageAttack = attackDamage;
 	armour = armoured;
 	speed = agility;
+	conversation = conver;
 }
 
 NPC::NPC()
@@ -51,4 +52,9 @@ const bool NPC::getArmour() const
 const char* NPC::getName() const
 {
 	return name;
+}
+
+const string NPC::getConversation() const
+{
+	return conversation;
 }
