@@ -342,13 +342,32 @@ string Player::Throw(char * obj, NPC *target)
 // Function that comproves and manages the stealth kill
 string Player::Kill(NPC *enemy)
 {
+	int i = 0;
+	int j = 1;
+
 	if (alarm == false) {			// Only is possible kill a enemy with stealth if the alarm is disable
 		enemy->health = 0;
-		if ((localization->npcs.size() != 0) && (smoke == false)) {
-			alarm = true;
-			cout << "\nEnemy killed.";
-			cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-			return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+		if ((localization->npcs.size() > 0) && (smoke == false)) 
+		{
+			while (localization->npcs.size() > j) {
+				if (strcmp(localization->npcs[j]->getName(), "geisha") != 0)
+				{
+					++i;
+				}
+				++j;
+			}
+
+			if (i > 0) 
+			{
+				alarm = true;
+				cout << "\nEnemy killed.";
+				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+			}
+			else 
+			{
+				cout << "All the enemies are down. The alarm is off.\n";
+			}
 		}
 		else {
 			if (localization->npcs.size() == 1) {

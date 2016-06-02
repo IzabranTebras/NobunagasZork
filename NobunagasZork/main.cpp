@@ -263,7 +263,9 @@ int main() {
 												{
 													fin = Input(TALK, command, world->player);
 												}
-												cout << "I don't understand you, guy!\n\n";
+												else {
+													cout << "I don't understand you, guy!\n\n";
+												}
 											}
 										}
 									}
