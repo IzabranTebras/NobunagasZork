@@ -169,13 +169,18 @@ bool Input(states state, char* command, Player *player) {
 				else
 				{
 					cout << player->Throw(command, player->localization->npcs[j]) + "\n";
-					if (player->localization->npcs[j]->health <= 1) 
+					if (player->localization->npcs[j]->health < 1) 
 					{
 						if (strcmp(player->localization->npcs[j]->getName(), "nobunaga") == 0) 
 						{
 							fin = true;
 						}
 						player->localization->npcs.erase(player->localization->npcs.begin() + j);
+					}
+					else {
+						player->alarm = true;
+						cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+						return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 					}
 				}
 			}
@@ -194,10 +199,22 @@ bool Input(states state, char* command, Player *player) {
 			if ((strcmp(command, "nobunaga") == 0) || (strcmp(command, "geisha") == 0))
 			{
 				cout << player->Talk(command);
+				if (strcmp(command, "nobunaga") == 0) {
+					player->alarm = true;
+					cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
+				}
+				else {
+					player->kaguya = true;
+				}
 			}
 			else
 			{
-				cout << "You bastard, come here!!\n\n";
+				cout << "You bastard, come here!!\n";
+				player->alarm = true;
+				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
+
 			}
 		}
 		break;
@@ -301,7 +318,7 @@ int main() {
 							printf("DRAW!!\n\n");
 							printf("Your health: %d \n", world->player->health);
 							printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
-							printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
+							printf("You have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n");
 						}
 						else {
 							int attack;
@@ -320,8 +337,17 @@ int main() {
 									world->player->localization->npcs.erase(world->player->localization->npcs.begin());
 									printf("NICE! You knock out the enemy!\n");
 
+									int i = 0;
+									int j = 0;
+									while (world->player->localization->npcs.size() > j) {
+										if (strcmp(world->player->localization->npcs[j]->getName(), "geisha") != 0)
+										{
+											++i;
+										}
+										++j;
+									}
 									// When all the enemies in the zone are dead the alarm disappears
-									if (world->player->localization->npcs.empty()) {
+									if (world->player->localization->npcs.empty() || i == 0) {
 										printf("All the enemies are down. The alarm is off.\n\n");
 										world->player->alarm = false;
 										printf(world->player->localization->alternativeDescription.c_str());
@@ -332,12 +358,15 @@ int main() {
 								}
 								else {
 									printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
-									printf("You have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n");
+									printf("You have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n");
 								}
 							}
 							else {
 								attack = world->player->localization->npcs[0]->Attack(world->player);
 								world->player->health -= attack;
+								if (world->player->health < 0) {
+									world->player->health = 0;
+								}
 								printf("HIT %d \n\n", attack);
 								printf("Your health: %d \n", world->player->health);
 								printf("Enemy health: %d \n\n", world->player->localization->npcs[0]->health);
@@ -346,6 +375,8 @@ int main() {
 					}
 					else {
 						world->player->alarm = false;
+						world->player->smoke = true;
+						cout << "Enemies are stunt.\n\n";
 					}
 				}
 			}
@@ -359,7 +390,12 @@ int main() {
 	while (_kbhit() == 0)
 	{
 		if (world->player->health < 1) {
-			cout << "Ooooohhh you are dead.. \nNobunaga never died , got eternal life and ended up taking care of bonsai for all eternity. ";
+			if (!world->player->kaguya) {
+				cout << "Ooooohhh you are dead.. \nNobunaga never died , got eternal life and ended up taking care of bonsai for all eternity. ";
+			}
+			else {
+				cout << "Ooooohhh you are dead.. \nBut Nobunaga was killed too by Kaguya. Kaguya, who came through the stars, save the world with his powers and change it.";
+			}
 		}
 		else {
 			cout << "You killed Nobunaga, your ninja clan became famous and people of Japan later achieved peace thanks to Tokugawa daimiyo. ";

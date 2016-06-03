@@ -34,15 +34,25 @@ int Player::Attack(NPC *enemy)
 // Function that comproves the moves
 string Player::Go(char* direction)
 {
+	int i = 0;
+	int j = 0;
+	while (localization->npcs.size() > j) {
+		if (strcmp(localization->npcs[j]->getName(), "geisha") != 0)
+		{
+			++i;
+		}
+		++j;
+	}
+
 	if (strcmp(direction, "north") == 0) {
 		if (localization->getNorth() != NULL) {
-			if ((localization->npcs.size() == 0) || (smoke == true)) {
+			if ((i == 0) || (smoke == true)) {
 				localization = localization->getNorth();
 			}
 			else {
 				alarm = true;
 				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 			}
 		}
 		else {
@@ -52,13 +62,13 @@ string Player::Go(char* direction)
 	else {
 		if (strcmp(direction, "south") == 0) {
 			if (localization->getSouth() != NULL) {
-				if ((localization->npcs.size() == 0) || (smoke == true)) {
+				if ((i == 0) || (smoke == true)) {
 					localization = localization->getSouth();
 				}
 				else {
 					alarm = true;
 					cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 				}
 			}
 			else {
@@ -68,13 +78,13 @@ string Player::Go(char* direction)
 		else {
 			if (strcmp(direction, "east") == 0) {
 				if (localization->getEast() != NULL) {
-					if ((localization->npcs.size() == 0) || (smoke == true)) {
+					if ((i == 0) || (smoke == true)) {
 						localization = localization->getEast();
 					}
 					else {
 						alarm = true;
 						cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-						return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+						return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 					}
 				}
 				else {
@@ -84,13 +94,13 @@ string Player::Go(char* direction)
 			else {
 				if (strcmp(direction, "west") == 0) {
 					if (localization->getWest() != NULL) {
-						if ((localization->npcs.size() == 0) || (smoke == true)) {
+						if ((i == 0) || (smoke == true)) {
 							localization = localization->getWest();
 						}
 						else {
 							alarm = true;
 							cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-							return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+							return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 						}
 					}
 					else {
@@ -104,10 +114,20 @@ string Player::Go(char* direction)
 		}
 	}
 
-	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+	i = 0;
+	j = 0;
+	while (localization->npcs.size() > j) {
+		if (strcmp(localization->npcs[j]->getName(), "geisha") != 0)
+		{
+			++i;
+		}
+		++j;
+	}
+
+	if ((localization->alternativeDescription.empty()) || (i > 0)) {
 		return localization->getDescription() + "\n\n";
 	}
-	else {
+	else if (i == 0){
 		return localization->alternativeDescription + "\n\n";
 	}
 }
@@ -196,10 +216,20 @@ string Player::Take(char * objName)
 				damageAttack = objects[objects.size()-1]->getDamageAttack();
 				printf("You obtained Masamune!\nWith this katana your damaged increased greatly.\n\n");
 
-				if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
+				int i = 0;
+				int j = 0;
+				while (localization->npcs.size() > j) {
+					if (strcmp(localization->npcs[j]->getName(), "geisha") != 0)
+					{
+						++i;
+					}
+					++j;
+				}
+
+				if ((localization->alternativeDescription.empty()) || (i > 0)) {
 					return localization->getDescription() + "\n\n";
 				}
-				else {
+				else if (i == 0) {
 					return localization->alternativeDescription + "\n\n";
 				}
 			}
@@ -245,11 +275,21 @@ string Player::Take(char * objName, char * container)
 		}
 	}
 
-	if ((localization->alternativeDescription.empty()) || (!localization->npcs.empty())) {
-		printf(localization->getDescription().c_str());
+	i = 0;
+	j = 0;
+	while (localization->npcs.size() > j) {
+		if (strcmp(localization->npcs[j]->getName(), "geisha") != 0)
+		{
+			++i;
+		}
+		++j;
 	}
-	else {
-		printf(localization->alternativeDescription.c_str());
+
+	if ((localization->alternativeDescription.empty()) || (i > 0)) {
+		return localization->getDescription() + "\n\n";
+	}
+	else if (i == 0) {
+		return localization->alternativeDescription + "\n\n";
 	}
 	return (string(objName) + " taken.\n\n");
 }
@@ -269,6 +309,7 @@ string Player::Talk(char * talker)
 			return (localization->npcs[i]->getConversation());
 		}
 	}
+	return ("Nobody's here to talk.\n\n");
 }
 
 // Function that manages the open of a container
@@ -329,6 +370,7 @@ string Player::Throw(char * obj, NPC *target)
 			}
 
 			if (target->health < 1) {		// Poner que el target desaparece
+				alarm = false;
 				return "Enemy killed.\n\n";
 			}
 		}
@@ -336,6 +378,7 @@ string Player::Throw(char * obj, NPC *target)
 			return "You don't have this object.\n\n";
 		}
 	}
+	alarm = true;
 	return "Enemy damaged.\n\n";
 }
 
@@ -362,7 +405,7 @@ string Player::Kill(NPC *enemy)
 				alarm = true;
 				cout << "\nEnemy killed.";
 				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. What do you do?\n\n";
+				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
 			}
 			else 
 			{

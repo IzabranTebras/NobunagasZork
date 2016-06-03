@@ -27,7 +27,7 @@ void World::Init()
 	//Add alternative descriptions
 	pb3->alternativeDescription = "\nSouth of Himeji castle\nYou can see two dead guards on the stairs. To South you can see the wall door closed, to East you can hear somelike water flowing and to West you can see some trees.\n\n";
 	pb5->alternativeDescription = "\nEast of Himeji castle\nYou can see a little waterfall with a little lake, tipical Japanese garden. To South the lake advance in a river form. North, East and West are walls. A sentinel is sunk in the river.\n\n";
-	p12->alternativeDescription = "\nFirst floor room\nYou can see a death samurai in the floor and a geisha.\n\n";
+	p12->alternativeDescription = "\nFirst floor room\nYou can see a death samurai in the floor and a geisha beside him. To North you can see a door to the hall.\n\n";
 	p21->alternativeDescription = "\nSecond floor hall\nYou can see a dead samurai in the floor next to a door to West and downstairs to South.\n\n";
 
 	//Connecting the rooms
@@ -51,7 +51,7 @@ void World::Init()
 
 	//Initialize objects
 	objList.clear();
-	objList.push_back(new Object("parchment", 1, "Your mission is kill the damiyo Nobunaga Oda. The damiyo is in Himeji castle for the next two nights.\nThe perfect moment to kill him is the night June 21, because the next day the damiyo recive a visit and there will be more guards.\nArchie\n\n"));
+	objList.push_back(new Object("parchment", 1, "Your mission is kill the damiyo Nobunaga Oda. The damiyo is in Himeji castle for the next two nights.\nThe perfect moment to kill him is the night June 21, because the next day the damiyo recive a visit and there will be more guards.\nSigned, Archie\n\n"));
 	objList.push_back(new Object("kunai", 2));
 	objList.push_back(new Object("shuriken", 2));
 	objList.push_back(new Object("shuriken", 2));
@@ -62,11 +62,11 @@ void World::Init()
 	//Initialize characters
 	pb3->npcs.push_back(new NPC("guard", 3, 1, 3, false, ""));
 	pb3->npcs.push_back(new NPC("guard", 3, 1, 3, false, ""));
-	pb5->npcs.push_back(new NPC("guard", 3, 1, 3, true, ""));
+	pb5->npcs.push_back(new NPC("sentinel", 2, 2, 3, true, ""));
 	p12->npcs.push_back(new NPC("samurai", 5, 3, 5, true, ""));
-	p12->npcs.push_back(new NPC("geisha", 1, 0, 1, false, "I'm a geisha, take this katana and save us!\n\n"));
+	p12->npcs.push_back(new NPC("geisha", 1, 0, 1, false, "I'm Kaguya, take this katana and save us! Soon this world will change...\n\n"));
 	p21->npcs.push_back(new NPC("samurai", 5, 3, 5, true, ""));
-	p22->npcs.push_back(new NPC("nobunaga", 5, 5, 7, false, "Soy Nobunaga"));
+	p22->npcs.push_back(new NPC("nobunaga", 5, 5, 7, false, "Who are you? How dare you interrupt my rest?!\nOh, i see... You come to kill me. Then get ready for combat, nameless ninja!!\n\n"));
 
 	//Insert the rooms in vector
 	scenes.push_back(pb1);
