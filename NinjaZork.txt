@@ -1,0 +1,63 @@
+<-------Contexto------->
+Es la noche del 21 de Junio de 1582, te encuentras en los jardines del castillo Himeji, eres un ninja y tienes la misión de asesinar al damiyô Oda Nobunaga.
+Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién te la ha demandado. A parte del pergamino tienes un kunai y 2 shurikens.
+
+
+<------Cómo jugar------>
+-Todas las comandas tienen que ser con todas las letras minusculas y en inglés.
+-Para moverte entre escenarios se utiliza : go *punto cardinal*
+-Para coger objetos: take *objeto*
+-Para dejar objetos: drop *objeto*
+-Para leer objetos: read *objeto*
+-Para abrir objetos: open *objeto*
+-Para lanzar objetos a enemigos: throw *objeto* to *enemigo*
+-Para matar sigilosamente: kill *enemigo*    (esta comanda si están los guardias en alerta no sirve)
+
+<------Objetivo del juego------->
+Llegar a lo alto del castillo Himeji y asesinar a Oda Nobunaga.
+
+<-----Extra features----->
+-Diferentes tipos de enemigos a los que asesinar.
+-Atributos RPG como son el daño por ataque o la vida asociados a los personajes y a las armas.
+-Objetos y armas de todo tipo desperdigadas por varios de los escenarios.
+
+<------Notas de versión--------->
+Versión final
+
+
+1:
+21 de Junio de 1582
+Himeji Castle
+
+2:
+Oda Nobunaga controls all Japan through fear
+
+3: 
+Your mission is finish him!
+
+4:
+FIGHT
+
+5:
+TAKE
+
+6:
+READ
+
+7:
+TALK
+
+8:
+THROW OBJECTS
+
+9: EXPLORE
+
+10:
+Can you accomplish the mission?
+
+11:
+Or you perish in it?
+
+12:
+Nobunaga's Zork
+12/06/2016
