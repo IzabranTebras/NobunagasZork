@@ -306,7 +306,17 @@ string Player::Talk(char * talker)
 		}
 		if (i < localization->npcs.size()) 
 		{
+			if (strcmp(localization->npcs[i]->getName(), "geisha")) {
+				kaguya = true;
+			}
+			else {
+				alarm = true;
+			}
 			return (localization->npcs[i]->getConversation());
+		}
+		else 
+		{
+			return "I'm sorry but there is no person with that name here.\n\n";
 		}
 	}
 	return ("Nobody's here to talk.\n\n");

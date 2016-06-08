@@ -196,26 +196,21 @@ bool Input(states state, char* command, Player *player) {
 	case TALK:
 		command = strtok(NULL, " ");
 		if (command != NULL) {
-			if ((strcmp(command, "nobunaga") == 0) || (strcmp(command, "geisha") == 0))
+			if (strcmp(command, "geisha") == 0)
 			{
 				cout << player->Talk(command);
-				if (strcmp(command, "nobunaga") == 0) {
-					player->alarm = true;
-					cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
-				}
-				else {
-					player->kaguya = true;
-				}
 			}
 			else
 			{
-				cout << "You bastard, come here!!\n";
-				player->alarm = true;
-				cout << "\n\n<------------------------ BATTLE -------------------------->\n";
-				return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
-
+				cout << player->Talk(command);
+				if (player->alarm) {
+					cout << "\n\n<------------------------ BATTLE -------------------------->\n";
+					return "The guards saw you!\n\nYou have to choose: 'rock', 'paper' or 'scissor'. If you want escape and you have smoke bombs use 'smoke'. What do you do?\n\n";
+				}
 			}
+		}
+		else {
+			cout << "I don't understand you, guy!\n\n";
 		}
 		break;
 
@@ -231,7 +226,7 @@ int main() {
 	char* command;
 	World *world = new World();
 
-	cout << "\n\n<--------------------------------Nobunaga's Zork------------------------------->\n\nYou're a ninja and you have a mission to acomplish. For acomplish this mission you have a kunai, two shurikens and a parchment with the details of the mission. Complete the mission with stealth!\n\n";
+	cout << "\n\n<--------------------------------Nobunaga's Zork------------------------------->\n\nYou're a ninja and you have a mission to acomplish. For acomplish this mission you have a kunai, two shurikens, two smoke bombs and a parchment with the details of the mission. Complete the mission with stealth!\n\n";
 
 	world->Init();
 
@@ -394,11 +389,11 @@ int main() {
 				cout << "Ooooohhh you are dead.. \nNobunaga never died , got eternal life and ended up taking care of bonsai for all eternity. ";
 			}
 			else {
-				cout << "Ooooohhh you are dead.. \nBut Nobunaga was killed too by Kaguya. Kaguya, who came through the stars, save the world with his powers and change it.";
+				cout << "Ooooohhh you are dead.. \nBut Nobunaga was assassinated too by Kaguya. Kaguya, who came through the stars, saved the world with his powers and changed it.";
 			}
 		}
 		else {
-			cout << "You killed Nobunaga, your ninja clan became famous and people of Japan later achieved peace thanks to Tokugawa daimiyo. ";
+			cout << "You killed Nobunaga and your ninja clan became famous. The people of Japan later achieved peace thanks to Tokugawa daimiyo. ";
 		}
 		while (_kbhit() == 0) {}
 	}

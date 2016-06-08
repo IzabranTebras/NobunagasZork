@@ -1,6 +1,7 @@
 <-------Contexto------->
 Es la noche del 21 de Junio de 1582, te encuentras en los jardines del castillo Himeji, eres un ninja y tienes la misión de asesinar al damiyô Oda Nobunaga.
-Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién te la ha demandado. A parte del pergamino tienes un kunai y 2 shurikens.
+Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién te la ha demandado. A parte del pergamino tienes un kunai, 2 shurikens
+y 2 bombas de humo.
 
 
 <------Cómo jugar------>
@@ -13,6 +14,13 @@ Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién
 -Para lanzar objetos a enemigos: throw *objeto* to *enemigo*
 -Para matar sigilosamente: kill *enemigo*    (esta comanda si están los guardias en alerta no sirve)
 
+<------Sistema de combate------>
+Se basa en el popular juego de piedra-papel-tijeras. Una vez da comienzo la batalla tienes que elegir entre piedra, papel o tijera y segun la combinación
+habrá un ganador u otro, o puede ser que se empate. El juego se repetirá hasta que uno de los 2 muera. Si hay varios enemigos primero se jugará contra uno
+y después contra el otro. 
+Para definir el daño que haces o te hacen se tienen en cuenta varios valores como el de defensa o la velocidad.
+Puedes huir de la batalla con el comando "smoke".
+
 <------Objetivo del juego------->
 Llegar a lo alto del castillo Himeji y asesinar a Oda Nobunaga.
 
@@ -23,41 +31,3 @@ Llegar a lo alto del castillo Himeji y asesinar a Oda Nobunaga.
 
 <------Notas de versión--------->
 Versión final
-
-
-1:
-21 de Junio de 1582
-Himeji Castle
-
-2:
-Oda Nobunaga controls all Japan through fear
-
-3: 
-Your mission is finish him!
-
-4:
-FIGHT
-
-5:
-TAKE
-
-6:
-READ
-
-7:
-TALK
-
-8:
-THROW OBJECTS
-
-9: EXPLORE
-
-10:
-Can you accomplish the mission?
-
-11:
-Or you perish in it?
-
-12:
-Nobunaga's Zork
-12/06/2016
