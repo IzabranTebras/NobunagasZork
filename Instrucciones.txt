@@ -8,7 +8,9 @@ y 2 bombas de humo.
 -Todas las comandas tienen que ser con todas las letras minusculas y en inglés.
 -Para moverte entre escenarios se utiliza : go *punto cardinal*
 -Para coger objetos: take *objeto*
+-Para coger objeto de contenedor: take *objeto* from *contenedor*
 -Para dejar objetos: drop *objeto*
+-Para dejar objetos dentro de contenedores: drop *objeto* to *contenedor*
 -Para leer objetos: read *objeto*
 -Para abrir objetos: open *objeto*
 -Para lanzar objetos a enemigos: throw *objeto* to *enemigo*
@@ -20,6 +22,14 @@ habrá un ganador u otro, o puede ser que se empate. El juego se repetirá hasta q
 y después contra el otro. 
 Para definir el daño que haces o te hacen se tienen en cuenta varios valores como el de defensa o la velocidad.
 Puedes huir de la batalla con el comando "smoke".
+
+<------NPCs interactuables------>
+Los siguientes son las comandas para interactuar con un NPC.
+- guard
+- sentinel
+- samurai
+- geisha
+- nobunaga
 
 <------Objetivo del juego------->
 Llegar a lo alto del castillo Himeji y asesinar a Oda Nobunaga.
