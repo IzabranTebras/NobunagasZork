@@ -238,6 +238,9 @@ string Player::Take(char * objName)
 			return "I'm sorry but there is no object with that name here.\n\n";
 		}
 	}
+	else {
+		return "Here's nothing to take.\n\n";
+	}
 
 	return (string(objName) + " taken.\n\n");
 }

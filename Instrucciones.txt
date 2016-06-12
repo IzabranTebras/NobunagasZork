@@ -1,3 +1,6 @@
+<-------Cómo ejecutar------->
+Dale doble click al archivo "NobunagasZork.exe" y a jugar!!
+
 <-------Contexto------->
 Es la noche del 21 de Junio de 1582, te encuentras en los jardines del castillo Himeji, eres un ninja y tienes la misión de asesinar al damiyô Oda Nobunaga.
 Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién te la ha demandado. A parte del pergamino tienes un kunai, 2 shurikens
@@ -35,9 +38,10 @@ Los siguientes son las comandas para interactuar con un NPC.
 Llegar a lo alto del castillo Himeji y asesinar a Oda Nobunaga.
 
 <-----Extra features----->
--Diferentes tipos de enemigos a los que asesinar.
--Atributos RPG como son el daño por ataque o la vida asociados a los personajes y a las armas.
--Objetos y armas de todo tipo desperdigadas por varios de los escenarios.
+- Diferentes tipos de enemigos a los que asesinar.
+- Atributos RPG como son el daño por ataque o la vida asociados a los personajes y a las armas.
+- Objetos y armas de todo tipo desperdigadas por varios de los escenarios.
+- ¡3 finales distintos!
 
 <------Notas de versión--------->
 Versión final
