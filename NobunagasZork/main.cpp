@@ -86,14 +86,14 @@ bool Input(states state, char* command, Player *player) {
 
 	case OPEN:
 		command = strtok(NULL, " ");
-		if (command != NULL) {
+		if (command != NULL && player->localization->objects.size() > 0) {
 			cout << player->Open(command) + "\n";
 
 			i = 0;
 			while ((player->localization->objects.size() > i) && (strcmp(player->localization->objects[i]->getName(), command) != 0)) {
 				++i;
 			}
-			for (int j = 0; j < player->localization->objects[i]->objects.size(); ++j) {
+			for (j = 0; j < player->localization->objects[i]->objects.size(); ++j) {
 				cout << "- " + string(player->localization->objects[i]->objects[j]->getName()) + "\n";
 			}
 		}

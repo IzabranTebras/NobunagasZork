@@ -225,13 +225,6 @@ string Player::Take(char * objName)
 					}
 					++j;
 				}
-
-				if ((localization->alternativeDescription.empty()) || (i > 0)) {
-					return localization->getDescription() + "\n\n";
-				}
-				else if (i == 0) {
-					return localization->alternativeDescription + "\n\n";
-				}
 			}
 		}
 		else {
@@ -288,12 +281,6 @@ string Player::Take(char * objName, char * container)
 		++j;
 	}
 
-	if ((localization->alternativeDescription.empty()) || (i > 0)) {
-		return localization->getDescription() + "\n\n";
-	}
-	else if (i == 0) {
-		return localization->alternativeDescription + "\n\n";
-	}
 	return (string(objName) + " taken.\n\n");
 }
 
@@ -353,6 +340,9 @@ string Player::Open(char * objOpenable)
 		else {
 			return "I'm sorry but there is no object with that name here.\n\n";
 		}
+	}
+	else {
+		return "Nothing to open here.\n\n";
 	}
 	return "Opened. Inside there are: ";
 }
