@@ -6,18 +6,17 @@ Es la noche del 21 de Junio de 1582, te encuentras en los jardines del castillo 
 Al comienzo tienes un pergamino que te explica en qué consiste la misión y quién te la ha demandado. A parte del pergamino tienes un kunai, 2 shurikens
 y 2 bombas de humo.
 
-
 <------Cómo jugar------>
 -Todas las comandas tienen que ser con todas las letras minusculas y en inglés.
--Para moverte entre escenarios se utiliza : go *punto cardinal*
--Para coger objetos: take *objeto*
--Para coger objeto de contenedor: take *objeto* from *contenedor*
--Para dejar objetos: drop *objeto*
--Para dejar objetos dentro de contenedores: drop *objeto* to *contenedor*
--Para leer objetos: read *objeto*
--Para abrir objetos: open *objeto*
--Para lanzar objetos a enemigos: throw *objeto* to *enemigo*
--Para matar sigilosamente: kill *enemigo*    (esta comanda si están los guardias en alerta no sirve)
+-Para moverte entre escenarios se utiliza : go *punto cardinal* Por ejemplo: go north
+-Para coger objetos: take *objeto* Por ejemplo: take katana
+-Para coger objeto de contenedor: take *objeto* from *contenedor* Por ejemplo: take kunai from box
+-Para dejar objetos: drop *objeto* Por ejemplo: drop kunai
+-Para dejar objetos dentro de contenedores: drop *objeto* to *contenedor* Por ejemplo: drop kunai to box
+-Para leer objetos: read *objeto* Por ejemplo: read parchment
+-Para abrir objetos: open *objeto* Por ejemplo: open box
+-Para lanzar objetos a enemigos: throw *objeto* to *enemigo* Por ejemplo: throw box to sentinel
+-Para matar sigilosamente: kill *enemigo*    (esta comanda si están los guardias en alerta no sirve) Por ejemplo: kill samurai
 
 <------Sistema de combate------>
 Se basa en el popular juego de piedra-papel-tijeras. Una vez da comienzo la batalla tienes que elegir entre piedra, papel o tijera y segun la combinación
